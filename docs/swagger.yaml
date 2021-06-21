@@ -1,0 +1,144 @@
+definitions:
+  puso.Puso:
+    properties:
+      color:
+        type: string
+      laziness:
+        type: integer
+      name:
+        type: string
+      owner:
+        type: string
+      weight:
+        type: number
+    type: object
+info:
+  contact: {}
+paths:
+  /healthz:
+    get:
+      summary: Returns health of the service
+  /puso:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/puso.Puso'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Get puso list
+      tags:
+      - Puso
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/puso.Puso'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successfully puso created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create a new puso
+      tags:
+      - Puso
+  /puso/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: nil
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Delete puso
+      tags:
+      - Puso
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/puso.Puso'
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Get puso
+      tags:
+      - Puso
+    put:
+      consumes:
+      - application/json
+      description: Update puso
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successfully updated
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Update puso
+      tags:
+      - Puso
+swagger: "2.0"
