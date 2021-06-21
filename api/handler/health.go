@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"github.com/GolangSriLanka/go-puso/config"
 	"net/http"
+
+	"github.com/GolangSriLanka/go-puso/config"
 )
 
 // GetHealth godoc

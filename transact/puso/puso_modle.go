@@ -1,11 +1,11 @@
 package puso
 
 import (
-	"github.com/GolangSriLanka/go-puso/internal/maths"
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/GolangSriLanka/go-puso/database"
+	"github.com/GolangSriLanka/go-puso/internal/maths"
 )
 
 type Puso struct {
