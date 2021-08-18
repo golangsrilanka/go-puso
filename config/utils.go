@@ -11,7 +11,7 @@ func GetEnv(key string) string {
 	viper.SetConfigType("yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
-		log.Error("error reading config file, %s", err)
+		log.Fatal("error reading config file, %s", err)
 	}
 
 	env := viper.GetString(key)
