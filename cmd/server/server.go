@@ -1,14 +1,18 @@
 package server
 
 import (
+	"context"
+	"fmt"
 	"net/http"
+	"os"
+	"os/signal"
+	"time"
 
 	chiPrometheus "github.com/766b/chi-prometheus"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	httpSwagger "github.com/swaggo/http-swagger"
 
@@ -35,7 +39,50 @@ var RunServerCmd = &cobra.Command{
 	},
 }
 
+func Serve(ctx context.Context, r *chi.Mux) (err error) {
+	port := config.GetEnv("server.PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	svc := http.Server{
+		Handler:      r,
+		Addr:         ":" + port,
+		ReadTimeout:  time.Second * 20,
+		WriteTimeout: time.Second * 20,
+	}
+
+	go func() {
+		if err := svc.ListenAndServe(); err != nil {
+			panic(err)
+		}
+	}()
+
+	fmt.Println("Server running on port" + port)
+	<-ctx.Done()
+	fmt.Println("Server is starting to shutdown....")
+
+	ctxShutDown, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+
+	defer func() {
+		cancel()
+	}()
+
+	if err := svc.Shutdown(ctxShutDown); err != nil {
+		fmt.Println("Server was unnable to shutdown")
+	}
+
+	fmt.Println("Server was shutdown successfuly")
+
+	return
+}
+
 func Run() {
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt)
+
+	ctx, cancel := context.WithCancel(context.Background())
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(cors.Handler(cors.Options{
@@ -57,9 +104,13 @@ func Run() {
 	r.Mount("/healthz", router.HealthRoute())
 	r.Mount("/api/v1", router.Router())
 
-	log.Info("go-puso started listening on ", port)
+	go func() {
+		oscall := <-quit
+		fmt.Printf("oscall: %v\n", oscall)
+		cancel()
+	}()
 
-	if err := http.ListenAndServe(":"+port, r); err != nil {
-		log.Fatal(err)
+	if err := Serve(ctx, r); err != nil {
+		panic(err)
 	}
 }
