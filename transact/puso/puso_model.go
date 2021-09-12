@@ -20,9 +20,9 @@ type Puso struct {
 func (obj *Puso) Save() error {
 	obj.Laziness = maths.LazinessGen(obj.Name, obj.Color, obj.Weight)
 
-	if err := database.Database().Create(&obj).Error; err != nil {
-		log.Errorf("failed to create puso: %+v: %v", obj, err)
-		return err
+	if result := database.Database().Create(&obj); result.Error != nil {
+		log.Errorf("failed to create puso: %+v: %v", obj, result.Error)
+		return result.Error
 	}
 
 	return nil
@@ -31,9 +31,9 @@ func (obj *Puso) Save() error {
 func (obj *Puso) GetList() ([]Puso, error) {
 	list := make([]Puso, 0)
 
-	if err := database.Database().Find(&list).Error; err != nil {
-		log.Errorf("failed to find puso: %+v: %v", obj, err)
-		return nil, err
+	if result := database.Database().Find(&list); result.Error != nil {
+		log.Errorf("failed to find puso: %+v: %v", obj, result.Error)
+		return nil, result.Error
 	}
 
 	return list, nil
@@ -42,37 +42,36 @@ func (obj *Puso) GetList() ([]Puso, error) {
 func (obj *Puso) Get(id string) (*Puso, error) {
 	t := &Puso{}
 
-	if err := database.Database().Where("ID = ?", id).First(t).Error; err != nil {
-		log.Errorf("failed to find puso: %+v: %v", obj, err)
-		return t, err
+	if result := database.Database().Where("ID = ?", id).First(t); result.Error != nil {
+		log.Errorf("failed to find puso: %+v: %v", obj, result.Error)
+		return t, result.Error
 	}
 
 	return t, nil
 }
 
 func (obj *Puso) Delete(id string) error {
-	if err := database.Database().Model(&obj).Where("ID = ?", id).Delete(obj).Error; err != nil {
-		log.Errorf("failed to delete puso: %+v: %v", obj, err)
-		return err
+	if result := database.Database().Model(&obj).Where("ID = ?", id).Delete(obj); result.Error != nil {
+		log.Errorf("failed to delete puso: %+v: %v", obj, result.Error)
+		return result.Error
 	}
 
 	return nil
 }
 
 func (obj *Puso) Update(id string) error {
-	if err := database.Database().Model(&obj).Where("ID = ?", id).Updates(obj).Error; err != nil {
-		log.Errorf("failed to update puso: %+v: %v", obj, err)
-		return err
+	if result := database.Database().Model(&obj).Where("ID = ?", id).Updates(obj); result.Error != nil {
+		log.Errorf("failed to update puso: %+v: %v", obj, result.Error)
+		return result.Error
 	}
 
 	return nil
 }
 
 func (obj *Puso) Migrate() error {
-	if err := database.Database().Migrator().AutoMigrate(obj); err != nil {
+	if err := database.Database().AutoMigrate(obj); err != nil {
 		log.Errorf("failed to migrate puso: %+v: %v", obj, err)
 		return err
 	}
-
 	return nil
 }
