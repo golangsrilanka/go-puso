@@ -1,11 +1,29 @@
 package router
 
-import "github.com/go-chi/chi"
+import (
+	"gorm.io/gorm"
 
-func Router() chi.Router {
+	"github.com/go-chi/chi"
+)
+
+type RouterRepo interface {
+	Route() chi.Router
+}
+
+type Router struct {
+	db *gorm.DB
+}
+
+func NewRouter(db *gorm.DB) *Router {
+	return &Router{
+		db: db,
+	}
+}
+
+func (o *Router) Route() chi.Router {
 	r := chi.NewRouter()
 
-	r.Mount("/puso", PusoRouter())
+	r.Mount("/puso", o.PusoRouter())
 
 	return r
 }

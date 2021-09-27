@@ -2,17 +2,18 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
 	chiPrometheus "github.com/766b/chi-prometheus"
+	"github.com/GolangSriLanka/go-puso/database"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	httpSwagger "github.com/swaggo/http-swagger"
 
@@ -58,9 +59,9 @@ func Serve(ctx context.Context, r *chi.Mux) (err error) {
 		}
 	}()
 
-	fmt.Println("Server running on port" + port)
+	log.Println("Server running on port" + port)
 	<-ctx.Done()
-	fmt.Println("Server is starting to shutdown....")
+	log.Println("Server is starting to shutdown....")
 
 	ctxShutDown, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 
@@ -69,10 +70,10 @@ func Serve(ctx context.Context, r *chi.Mux) (err error) {
 	}()
 
 	if err := svc.Shutdown(ctxShutDown); err != nil {
-		fmt.Println("Server was unnable to shutdown")
+		log.Println("Server was unable to shutdown")
 	}
 
-	fmt.Println("Server was shutdown successfuly")
+	log.Println("Server was shutdown successfully")
 
 	return
 }
@@ -102,11 +103,11 @@ func Run() {
 		httpSwagger.URL("http://localhost:"+port+"/swagger/doc.json"),
 	))
 	r.Mount("/healthz", router.HealthRoute())
-	r.Mount("/api/v1", router.Router())
+	r.Mount("/api/v1", router.NewRouter(database.Database()).Route())
 
 	go func() {
 		oscall := <-quit
-		fmt.Printf("oscall: %v\n", oscall)
+		log.Printf("oscall: %v\n", oscall)
 		cancel()
 	}()
 
