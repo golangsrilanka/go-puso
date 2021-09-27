@@ -1,0 +1,8 @@
+server:
+  PORT: 3000
+
+database:
+  URL: "postgres://<url>"
+
+go-puso:
+  VERSION: "0.0.1"
