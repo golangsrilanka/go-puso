@@ -8,6 +8,7 @@ import (
 	"time"
 
 	chiPrometheus "github.com/766b/chi-prometheus"
+	"github.com/GolangSriLanka/go-puso/database"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
@@ -102,7 +103,7 @@ func Run() {
 		httpSwagger.URL("http://localhost:"+port+"/swagger/doc.json"),
 	))
 	r.Mount("/healthz", router.HealthRoute())
-	r.Mount("/api/v1", router.Router())
+	r.Mount("/api/v1", router.NewRouter(database.Database()).Route())
 
 	go func() {
 		oscall := <-quit
