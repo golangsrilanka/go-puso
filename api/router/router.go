@@ -1,22 +1,29 @@
 package router
 
 import (
-	"gorm.io/gorm"
-
 	"github.com/go-chi/chi"
+	"go.uber.org/fx"
+
+	"github.com/GolangSriLanka/go-puso/api/handler"
 )
 
 type RouterRepo interface {
 	Route() chi.Router
 }
 
-type Router struct {
-	db *gorm.DB
+type Config struct {
+	fx.In
+
+	PusoHandler *handler.PusoHandler
 }
 
-func NewRouter(db *gorm.DB) *Router {
+type Router struct {
+	pusoHandler *handler.PusoHandler
+}
+
+func NewRouter(config Config) *Router {
 	return &Router{
-		db: db,
+		pusoHandler: config.PusoHandler,
 	}
 }
 

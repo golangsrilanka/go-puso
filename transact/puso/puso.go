@@ -1,11 +1,11 @@
 package puso
 
 import (
+	log "github.com/sirupsen/logrus"
+	"go.uber.org/fx"
 	"gorm.io/gorm"
 
 	"github.com/GolangSriLanka/go-puso/internal/maths"
-	log "github.com/sirupsen/logrus"
-
 	"github.com/GolangSriLanka/go-puso/models"
 )
 
@@ -18,13 +18,19 @@ type PusoRepo interface {
 	Migrate() error
 }
 
+type Config struct {
+	fx.In
+
+	DB *gorm.DB
+}
+
 type Puso struct {
 	db *gorm.DB
 }
 
-func NewPusoRepo(db *gorm.DB) *Puso {
+func NewPusoRepo(config Config) *Puso {
 	return &Puso{
-		db: db,
+		db: config.DB,
 	}
 }
 
