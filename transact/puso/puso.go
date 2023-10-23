@@ -5,8 +5,8 @@ import (
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 
-	"github.com/GolangSriLanka/go-puso/internal/maths"
-	"github.com/GolangSriLanka/go-puso/models"
+	"github.com/golangsrilanka/go-puso/internal/maths"
+	"github.com/golangsrilanka/go-puso/models"
 )
 
 type PusoRepo interface {

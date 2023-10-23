@@ -15,9 +15,9 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 	"go.uber.org/fx"
 
-	"github.com/GolangSriLanka/go-puso/api/router"
-	"github.com/GolangSriLanka/go-puso/config"
-	_ "github.com/GolangSriLanka/go-puso/docs"
+	"github.com/golangsrilanka/go-puso/api/router"
+	"github.com/golangsrilanka/go-puso/config"
+	_ "github.com/golangsrilanka/go-puso/docs"
 )
 
 // @title Go Puso

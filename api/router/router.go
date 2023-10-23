@@ -4,7 +4,7 @@ import (
 	"github.com/go-chi/chi"
 	"go.uber.org/fx"
 
-	"github.com/GolangSriLanka/go-puso/api/handler"
+	"github.com/golangsrilanka/go-puso/api/handler"
 )
 
 type RouterRepo interface {

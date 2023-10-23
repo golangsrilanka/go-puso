@@ -1,4 +1,4 @@
-module github.com/GolangSriLanka/go-puso
+module github.com/golangsrilanka/go-puso
 
 go 1.16
 

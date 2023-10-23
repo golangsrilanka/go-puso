@@ -1,11 +1,11 @@
 package cmd
 
 import (
-	"github.com/GolangSriLanka/go-puso/cmd/view"
+	"github.com/golangsrilanka/go-puso/cmd/view"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/GolangSriLanka/go-puso/cmd/server"
+	"github.com/golangsrilanka/go-puso/cmd/server"
 )
 
 var rootCmd = &cobra.Command{

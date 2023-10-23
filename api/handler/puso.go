@@ -7,8 +7,8 @@ import (
 	"github.com/go-chi/chi"
 	"go.uber.org/fx"
 
-	"github.com/GolangSriLanka/go-puso/models"
-	"github.com/GolangSriLanka/go-puso/transact/puso"
+	"github.com/golangsrilanka/go-puso/models"
+	"github.com/golangsrilanka/go-puso/transact/puso"
 )
 
 type Config struct {
