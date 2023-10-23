@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/GolangSriLanka/go-puso/config"
+	"github.com/golangsrilanka/go-puso/config"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

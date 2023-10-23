@@ -1,6 +1,6 @@
 package main
 
-import "github.com/GolangSriLanka/go-puso/cmd"
+import "github.com/golangsrilanka/go-puso/cmd"
 
 func main() {
 	cmd.Execute()

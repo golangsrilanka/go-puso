@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/GolangSriLanka/go-puso/config"
+	"github.com/golangsrilanka/go-puso/config"
 )
 
 // GetHealth godoc

@@ -9,7 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/GolangSriLanka/go-puso/transact/puso"
+	"github.com/golangsrilanka/go-puso/transact/puso"
 )
 
 var ViewCmd = &cobra.Command{

@@ -5,18 +5,25 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"go.uber.org/fx"
 
-	"github.com/GolangSriLanka/go-puso/models"
-	"github.com/GolangSriLanka/go-puso/transact/puso"
+	"github.com/golangsrilanka/go-puso/models"
+	"github.com/golangsrilanka/go-puso/transact/puso"
 )
 
-type PusoHandler struct {
-	repo puso.PusoRepo
+type Config struct {
+	fx.In
+
+	Repo *puso.Puso
 }
 
-func NewPusoHandler(repo puso.PusoRepo) *PusoHandler {
+type PusoHandler struct {
+	repo *puso.Puso
+}
+
+func NewPusoHandler(config Config) *PusoHandler {
 	return &PusoHandler{
-		repo: repo,
+		repo: config.Repo,
 	}
 }
 
